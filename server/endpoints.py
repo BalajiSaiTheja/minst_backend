@@ -2,8 +2,11 @@ import uvicorn
 from fastapi import FastAPI,File,UploadFile,Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import sys
 from modules.Predict import Predict
 from modules.visualizer import Visualize
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 app = FastAPI()
 
 app.add_middleware(

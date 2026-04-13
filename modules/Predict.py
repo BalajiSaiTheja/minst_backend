@@ -1,14 +1,19 @@
 import torch
 import cv2
 import numpy as np
-
+import os
 
 
 class Predict:
     model = None
     def __init__(self,path = "./model/model_vit.pt"):
         if Predict.model is None:
-            Predict.model = torch.jit.load(path, map_location="cpu")
+            BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+            MODEL_PATH = os.path.join(BASE_DIR, "model", "model_vit.pt")
+
+            print("Loading model from:", MODEL_PATH)
+
+            Predict.model = torch.jit.load(MODEL_PATH, map_location="cpu")
             Predict.model.eval()
     @staticmethod
     def _initialize(path=None):
@@ -20,6 +25,7 @@ class Predict:
     def predict(image):
         if Predict.model is None:
             Predict._initialize()
+            
         img = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
 
         if img is None:

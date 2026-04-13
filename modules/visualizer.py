@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import torch
 import cv2
@@ -5,13 +7,21 @@ import numpy as np
 from modules.Predict import Predict
 from modules.ViT import ViT
 import io
+import os
 
 class Visualize:
     model = None
     def __init__(self,path="./model/best_model_vit.pth"):
         if Visualize.model is None:
+            BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+            MODEL_PATH = os.path.join(BASE_DIR, "model", "best_model_vit.pth")
+            print("Loading ViT model from:", MODEL_PATH)
             Visualize.model = ViT()
-            Visualize.model.load_state_dict(torch.load(path, map_location="cpu"))
+            Visualize.model.load_state_dict(
+                torch.load(MODEL_PATH, map_location="cpu")
+            )
+            Visualize.model.eval()
+            
     @staticmethod
     def _initialize(path=None):
         if path is not None:
@@ -115,7 +125,7 @@ class Visualize:
         attn_layers = acts["attn"]
         mlp_layers = acts["mlp"]
         block_layers = acts["block"]
-        num_layers = len(block_layers)
+        num_layers = min(len(block_layers), 6)
         fig, axes = plt.subplots(3, num_layers, figsize=(num_layers * 3, 10))
 
         def process_and_plot(layer_list, row_idx, cmap, row_label):

@@ -4,10 +4,28 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 import sys
 from modules.Predict import Predict
+from contextlib import asynccontextmanager
 from modules.visualizer import Visualize
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app):
+    try:
+        print("Loading Predict model...")
+        Predict._initialize()
+
+        print("Loading Visualize model...")
+        Visualize._initialize()
+
+        print("All models loaded successfully")
+    except Exception as e:
+        print("Startup failed:", e)
+    
+    yield
+
+    
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,6 +34,10 @@ app.add_middleware(
     allow_headers=["*"] 
 )
 
+@app.on_event("startup")
+def load_model():
+    print("Initializing model at startup...")
+    Predict._initialize()
 
 @app.post("/predict")
 async def predict(uploaded_image:UploadFile=File(...)):

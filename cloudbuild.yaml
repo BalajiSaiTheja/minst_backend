@@ -29,3 +29,7 @@ steps:
       '--cpu', '1',
       '--min-instances', '0'
     ]
+
+# This block solves the 'build.service_account' error
+options:
+  logging: CLOUD_LOGGING_ONLY

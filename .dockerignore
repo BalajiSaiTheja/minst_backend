@@ -1,0 +1,45 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual envs
+.venv/
+venv/
+env/
+Lib/
+Include/
+Scripts/
+pyvenv.cfg
+
+# Data / media
+data/
+dataset/
+imgs/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Logs / env
+*.log
+.env
+.env.*
+
+# Dev/test artifacts
+tests/
+notebooks/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db

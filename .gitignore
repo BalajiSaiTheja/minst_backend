@@ -5,3 +5,6 @@ include/
 imgs/
 Scripts/
 modules/__pycache__/
+share/
+**/__pycache__/
+Screenshot 2026-04-05 194303.png

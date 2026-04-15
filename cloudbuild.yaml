@@ -1,0 +1,31 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      'asia-south1-docker.pkg.dev/$PROJECT_ID/mnist-repo/mnist:latest',
+      '.'
+    ]
+
+  # Push image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'asia-south1-docker.pkg.dev/$PROJECT_ID/mnist-repo/mnist:latest'
+    ]
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'mnist-service',
+      '--image', 'asia-south1-docker.pkg.dev/$PROJECT_ID/mnist-repo/mnist:latest',
+      '--region', 'asia-south1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--port', '10000',
+      '--memory', '1Gi',
+      '--cpu', '1',
+      '--min-instances', '0'
+    ]

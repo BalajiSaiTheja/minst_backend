@@ -11,7 +11,7 @@ import os
 
 class Visualize:
     model = None
-    def __init__(self,path="./model/best_model_vit.pth"):
+    def __init__(self,path=None):
         if Visualize.model is None:
             BASE_DIR = os.path.dirname(os.path.dirname(__file__))
             MODEL_PATH = os.path.join(BASE_DIR, "model", "best_model_vit.pth")

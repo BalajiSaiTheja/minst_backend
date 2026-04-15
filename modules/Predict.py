@@ -29,7 +29,7 @@ class Predict:
         img = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
 
         if img is None:
-            print(f"Error: Could not load image at {image}. Check if file exists.")
+            print("Error: Could not decode image from bytes.")
             return None
         
         _, img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)

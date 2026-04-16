@@ -24,12 +24,16 @@ async def lifespan(app):
     
     yield
 
-    
+origins = [
+    "http://localhost:5173",  # Local React/Vite dev server
+    "https://mnist-frontend-007.vercel.app", # Your Vercel deployment
+]
+
 app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_methods =["*"],
     allow_headers=["*"] 
 )
